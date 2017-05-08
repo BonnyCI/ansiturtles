@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+		<title>Ansi-Turtles All The Way Down</title>
 
 		<link rel="stylesheet" href="css/reveal.css">
 		<link rel="stylesheet" href="css/theme/league.css">
@@ -40,22 +40,32 @@
                     </div>
                 </section>
                 <section>
-                    <section>What's BonnyCI?</section>
+                    <section>What's BonnyCI?<br/><img src="images/bonny.jpg"></section>
                     <section>
-                        <ul>
+                        <img src="images/bonny.jpg" style="float: right"/>
+                        <ul style="display: block">
+                            <li>OpenStack's Zuul CI scheduler</li>
+                            <li> + Github</li>
+                            <li> + zuulv3 features</li>
+                            <li> + pirates</li>
+                            <li>Lightning talk tomorrow, MR206 @3:55 -- or chat me up after.</li>
+                        </ul>
+                        <aside class="notes">
+                        <ul style="display: block">
                             <li>Gating at scale is hard</li>
                             <li>Cross-project testing is hard</li>
                             <li>OpenStack has gotten really good at both using Zuul!</li>
                             <li>So we're building it as a service for Github (or Gerrithub!) users</li>
-                            <li>Looking for <i>patient</i> closed beta users.</li>
-                            <li>Lightning talk tomorrow, MR206 @3:55 -- or chat me up now.</li>
+                            <li>Looking for <i>patient</i> closed beta <del>pirates</del> users.</li>
                         </ul>
+                        </side>
                     </section>
                 </section>
                 <section>
                     <section>Enough about BonnyCI, what do you use Ansible for?</section>
                     <section>
-                        <ul>
+                        <img src="images/ansible.svg" height="400" style="float: right; border: 0; background-color: transparent; box-shadow: none"/>
+                        <ul style="display: block">
                             <li>Provision dev/test/prod nodes in our BlueMix Private OpenStack Cloud with os_* modules</li>
                             <li>Deploy all software (including ... Ansible) and config on our nodes using Ansible</li>
                             <li>Gate our Ansible using Zuul -- Which runs Ansible to setup test nodes, to test all of our.. Ansible</li>
@@ -65,17 +75,41 @@
                     <section>tl;dr - We lurve Ansible</section>
                 </section>
                 <section>
-                    <section>Wisdom</section>
-                    <section>
-                        <ul>
-                            <li>the os_* modules have gotten really good at talking to OpenStack -- thanks shade!</li>
-                            <li>Testing ansible deployments is a really good idea, and feasible with a small amount of cloud resources and a really good testing service <i>(hint hint)</i></li>
-                            <li>Ansible is a gateway drug -- to Ansible</li>
-                            <li>Containers are cool -- but we're struggling to bring a third partner into our torrid love affair with Ansible</li>
-                        </ul>
+                    <section>Wisdom we can share<br/>
+                        <br/>
+                        <i>"The first principle is that you must not fool yourself and you are the easiest person to fool."</i><br/>
+                        <img src="images/feynman.jpg" height="300"/><br/>
+                        <a href="https://en.wikipedia.org/wiki/Richard_Feynman#/media/File:RichardFeynman-PaineMansionWoods1984_copyrightTamikoThiel_bw.jpg"><font size="3pt">source: Tamiko Thiel 1984, CC-BY-SA 3.0</font></a>
                     </section>
+                    <section>
+                        the os_* modules have gotten really good at talking to OpenStack -- thanks shade!<br/>
+                        <pre><code data-trim data-noescape>
+- name: Create per-env hosts
+  os_server:
+    cloud: "{{ cloud }}"
+    name: "{{ item.name }}.{{ subdomain }}"
+    flavor: "{{ item.flavor | default(default_flavor) }}"
+    image: "{{ image_uuid }}"
+    key_name: "{{ item.key_name | default('default') }}"
+    network: "{{ outer_item.controlplane_network_name }}"
+    auto_ip: false
+    security_groups: "{{ item.security_groups }}"
+  with_items: "{{ outer_item.servers }}"
+
+- name: Associate per-env floating IPs
+  os_floating_ip:
+    cloud: "{{ cloud }}"
+    server: "{{ item.name }}.{{ subdomain }}"
+    network: "{{ item.floating_ip_network | default(omit) }}"
+    floating_ip_address: "{{ item.floating_ip_address | default(omit) }}"
+  with_items: "{{ outer_item.servers}}"
+  when: item.floating_ip_address is defined or item.floating_ip_network is defined</code></pre>
+                        <a href="https://github.com/BonnyCI/hoist/blob/master/roles/cloud-bootstrap/tasks/env_hosts.yml">https://github.com/BonnyCI/hoist/blob/master/roles/cloud-bootstrap/tasks/env_hosts.yml</a>
+                    </section>
+                    <section>Code-review and fully testing ansible deployments is a really good idea<br/><img src="images/PRStatus.png"/></section>
+                    <section><img src="images/trucks.jpg"/><br/>Containers are cool -- but we're struggling to bring a third piece of automation together with OpenStack and Ansible</section>
                 </section>
-                <section>It's all open source! Even the deployment code -- <a href="https://github.com/BonnyCI">https://github.com/BonnyCI</a></section>
+                <section>It's all open source! Even the deployment code -- <a href="https://github.com/BonnyCI">https://github.com/BonnyCI</a><br/>Join us!</section>
                 <section>Thank you!<br/>
                     <h7>Clint Byrum - Cloud Architect - IBM - clint@fewbar.com<br/>
                     Twitter: @SpamapS #AnsiTurtles</h7>
