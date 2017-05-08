@@ -51,28 +51,30 @@
                             <li>Lightning talk tomorrow, MR206 @3:55 -- or chat me up after.</li>
                         </ul>
                         <aside class="notes">
-                        <ul style="display: block">
-                            <li>Gating at scale is hard</li>
-                            <li>Cross-project testing is hard</li>
-                            <li>OpenStack has gotten really good at both using Zuul!</li>
-                            <li>So we're building it as a service for Github (or Gerrithub!) users</li>
-                            <li>Looking for <i>patient</i> closed beta <del>pirates</del> users.</li>
-                        </ul>
+                            <ul style="display: block">
+                                <li>Gating at scale is hard</li>
+                                <li>Cross-project testing is hard</li>
+                                <li>OpenStack has gotten really good at both using Zuul!</li>
+                                <li>So we're building it as a service for Github (or Gerrithub!) users</li>
+                                <li>Looking for <i>patient</i> closed beta <del>pirates</del> users.</li>
+                            </ul>
                         </side>
                     </section>
                 </section>
                 <section>
-                    <section>Enough about BonnyCI, what do you use Ansible for?</section>
                     <section>
-                        <img src="images/ansible.svg" height="400" style="float: right; border: 0; background-color: transparent; box-shadow: none"/>
-                        <ul style="display: block">
+                        Enough about BonnyCI, what do you use Ansible for?
+                        <img src="images/ansible.svg" height="400" style="border: 0; background-color: transparent; box-shadow: none"/>
+                    </section>
+                    <section>
+                        <ul style="width: 50%; float: left; display: block">
                             <li>Provision dev/test/prod nodes in our BlueMix Private OpenStack Cloud with os_* modules</li>
-                            <li>Deploy all software (including ... Ansible) and config on our nodes using Ansible</li>
+                            <li>Deploy all software (including ... Ansible) and config</li>
                             <li>Gate our Ansible using Zuul -- Which runs Ansible to setup test nodes, to test all of our.. Ansible</li>
                             <li>20 GOTO 10
                         </ul>
+                        <img src="images/escher.jpg" height="350" style="float: right; border: 0; background-color: transparent; box-shadow: none"/>
                     </section>
-                    <section>tl;dr - We lurve Ansible</section>
                 </section>
                 <section>
                     <section>Wisdom we can share<br/>
